@@ -98,17 +98,16 @@ public class TestSudoku {
      return SOLVE;
     }
     
-   /* public static void main(String[] args) {
-		Sudoku sudoku = new Sudoku(GRID_TO_SOLVE);
-		System.out.println("Sudoku grid to solve");
+ public boolean  Displaycheckmain(int[][] arrTest) {
+		Sudoku sudoku = new Sudoku(arrTest) ;
 		sudoku.display();
 		
-		// we try resolution
+		
 		if (sudoku.solve()) {
-			System.out.println("Sudoku Grid solved with simple BT");
-			sudoku.display();
+        
+		        return true;
 		} else {
-			System.out.println("Unsolvable");
+			return false;
 		}
-	}*/
+	}
 }
