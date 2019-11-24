@@ -1,0 +1,37 @@
+const express = require('express');
+const Twitter = require('twit');
+
+const app = express();
+const client = new Twitter({
+  consumer_key: 'Your Key Here',
+  consumer_secret: 'Your  Secret  Here',
+  access_token: 'Your Access Token Here',
+  access_token_secret: 'Your Token  Secret Here'
+});
+
+
+app.use(require('cors')());
+app.use(require('body-parser').json());
+
+app.post('/post_tweet', (req, res) => {
+
+  tweet = {status:"HasanAbdalaal"};
+	
+    client
+      .post(`statuses/update`, tweet)
+      .then(timeline => {
+        console.log(timeline);
+        
+        res.send(timeline);
+      })
+
+     .catch(error => {
+      res.send(error);
+    });
+      
+   
+});
+
+
+
+app.listen(3000, () => console.log('Server running'));
