@@ -1,0 +1,156 @@
+
+public class MainActivity extends AppCompatActivity {
+    MultiAutoCompleteTextView editText;
+    Button button;
+    TextView textView;
+    String [] arrSolv1,arrSolv2;
+    Sudoku sudoku;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        sudoku=new Sudoku();
+        editText=findViewById(R.id.multiAutoCompleteTextView);
+        textView=findViewById(R.id.textView);
+        button=findViewById(R.id.check);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text=editText.getText().toString();
+                arrSolv1 = text.split(",");
+                int[][] arr = new int[arrSolv1.length][arrSolv1.length];
+                for(int i=0;i<arrSolv1.length;i++){
+                    for(int j=0;j<arrSolv1.length;j++){
+                        arr[i][j]=Integer.parseInt(arrSolv1[j+i]);
+                    }
+
+                }
+
+                sudoku.setArr(arr);
+                sudoku.DisplayCheckBox(arr);
+
+            }
+        });
+    }
+}
+
+
+
+-------------------------------------
+
+package com.example.myapplication.Model;
+
+public class Sudoku {
+    private int size;
+    private int[][] arr;
+
+    public Sudoku(int size){
+        this.size = size;
+        arr = new int[size][size];
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int[][] getArr() {
+        return arr;
+    }
+
+    public void setArr(int[][] arr) {
+        this.arr = arr;
+    }
+
+    public Sudoku() {
+    }
+
+    private boolean rowCheck(){
+        int sum = (size*(size+1))/2;
+        int count = 0;
+        for (int i = 0; i <size ; i++) {
+            for (int j = 0; j < size ; j++) {
+                count += arr[i][j];
+            }
+            if(count != sum) return false;
+            count = 0;
+        }
+        return true;
+    }
+
+    private boolean columnCheck(){
+        int sum =0;
+        int count = 0;
+        for (int i = 0; i <size ; i++) {
+            for (int j = 0; j <size ; j++) {
+                count += arr[j][i];
+            }
+            if(count != sum) return false;
+            count = 0;
+        }
+        return true;
+    }
+
+
+
+    public boolean isValid(){
+
+        return(rowCheck() && columnCheck() );
+
+    }
+
+
+    public boolean  DisplayCheckBox(int[][] arrTest) {
+        this.arr=arrTest;
+        if(isValid()){
+
+            return true;
+        }
+   else
+       return false;
+    }
+}
+-------------------------
+activity_main.xml 
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/multiAutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="10dp"
+            android:hint="Enter A number with and between all number coma" />
+
+        <Button
+            android:id="@+id/check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#009688"
+            android:text="Check Soduko"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="textOutput"
+            android:textSize="24sp" />
+    </LinearLayout>
+</RelativeLayout>
